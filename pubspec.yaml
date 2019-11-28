@@ -24,6 +24,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   http: any
+  pull_to_refresh: ^1.5.7
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  fonts:
+    - family: ABeeZee
+      fonts:
+        - asset: fonts/ABeeZee-Regular.ttf
+        - asset: fonts/ABeeZee-Italic.ttf
+          style: italic
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

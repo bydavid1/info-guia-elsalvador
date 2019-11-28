@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\FOX ONE\\Desktop\\infoguia\\build\\app\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "outputFile": "C:\\Users\\FOX ONE\\Desktop\\Nueva carpeta (2)\\build\\app\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\FOX ONE\\Desktop\\infoguia\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "C:\\Users\\FOX ONE\\Desktop\\Nueva carpeta (2)\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
