@@ -1,4 +1,4 @@
-#Wed Nov 27 22:07:48 CST 2019
+#Thu Nov 28 21:13:12 CST 2019
 base.0=C\:\\Users\\FOX ONE\\Desktop\\Nueva carpeta (2)\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

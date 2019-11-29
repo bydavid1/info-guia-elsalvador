@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
   build(context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'My Http App',
+      title: 'Infoguia El Salvador',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        fontFamily: 'ABeeZee'
       ),
       home: MyListScreen(),
     );
@@ -29,11 +29,11 @@ class MyListScreen extends StatefulWidget {
   createState() => _MyListScreenState();
 }
 
-class _MyListScreenState extends State {
+class _MyListScreenState extends State<MyListScreen> {
   var posts = new List<Post>();
 
   RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+ RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
     // monitor network fetch
@@ -64,12 +64,10 @@ class _MyListScreenState extends State {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text(title),
           content: new Text(content),
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text(button),
               onPressed: () {
@@ -88,10 +86,13 @@ Widget makeCard(BuildContext context, int index){
       margin: new EdgeInsets.symmetric(horizontal: 0.0, vertical: 6.0),
         child: ListTile(
           title: Container(
+                child: Hero(
+              tag: posts[index].portada,
                 child: Image.network(
                   posts[index].portada,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
+            ),
               ),
               subtitle: new Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -99,11 +100,11 @@ Widget makeCard(BuildContext context, int index){
                 children: <Widget>[
                   Container(
                          margin: new EdgeInsets.only(top: 10.0, left: 5.0),
-                          child: Text(posts[index].titulo, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600, fontFamily: 'ABeeZee'), softWrap: false, overflow: TextOverflow.ellipsis, maxLines: 3,),
+                          child: Text(posts[index].titulo, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600,), softWrap: false, overflow: TextOverflow.ellipsis, maxLines: 3,),
                   ),
                   Container(
                          margin: new EdgeInsets.only(top: 5.0, left: 5.0),
-                          child: Text(posts[index].descripcion, style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black54, fontFamily: 'ABeeZee'), softWrap: true, overflow: TextOverflow.ellipsis, maxLines: 3,),
+                          child: Text(posts[index].descripcion, style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black54,), softWrap: true, overflow: TextOverflow.ellipsis, maxLines: 3,),
                   ),
                   Container(
                       margin: new EdgeInsets.only(top: 5.0),
@@ -127,8 +128,12 @@ Widget makeCard(BuildContext context, int index){
                         ),
                   )
                 ],
-              )
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(posts: posts[index],)));
+              },
           ),
+          elevation: 0.0,
    );
 }
 
@@ -140,36 +145,21 @@ Widget makeCard(BuildContext context, int index){
   @override
   build(context) {
         return Scaffold(
+          appBar: new AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.green[600],
+            title: Text('Infoguia El Salvador'), 
+            centerTitle: true,
+            actions: <Widget>[
+              Icon(Icons.search)
+            ],
+            ),
           backgroundColor: Color.fromRGBO(240, 240, 240, 1),
         body: Container(
           child: new SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
-        header: WaterDropMaterialHeader(),
-        footer: CustomFooter(
-          builder: (BuildContext context,LoadStatus mode){
-            Widget body ;
-            if(mode==LoadStatus.idle){
-              body =  Text("pull up load");
-            }
-            else if(mode==LoadStatus.loading){
-              body =  CupertinoActivityIndicator();
-            }
-            else if(mode == LoadStatus.failed){
-              body = Text("Load Failed!Click retry!");
-            }
-            else if(mode == LoadStatus.canLoading){
-                body = Text("release to load more");
-            }
-            else{
-              body = Text("No more Data");
-            }
-            return Container(
-              height: 55.0,
-              child: Center(child:body),
-            );
-          },
-        ),
+        header: WaterDropMaterialHeader(backgroundColor: Colors.green[600],),
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
@@ -180,6 +170,81 @@ Widget makeCard(BuildContext context, int index){
         },
       ),
       ),)
+    );
+  }
+}
+
+class DetailPage extends StatefulWidget {
+
+  DetailPage({Key key, @required this.posts}) : super(key: key);
+  final Post posts;
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            height: 300,
+            child: Hero(
+              tag: '${widget.posts.portada}',
+              child: Image.network(
+                widget.posts.portada,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+                    CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                backgroundColor: Colors.transparent,
+                actions: <Widget>[
+                  PopupMenuButton<String>(
+                    onSelected: (String item) { },
+                    itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+                      _buildMenuItem(Icons.share, 'Tweet recipe'),
+                      _buildMenuItem(Icons.people, 'Share on Facebook'),
+                    ],
+                  ),
+                ],
+                flexibleSpace: const FlexibleSpaceBar(
+                  background: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(0.0, -1.0),
+                        end: Alignment(0.0, -0.2),
+                        colors: <Color>[Color(0x60000000), Color(0x00000000)],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      )
+    );
+  }
+
+    PopupMenuItem<String> _buildMenuItem(IconData icon, String label) {
+    return PopupMenuItem<String>(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 24.0),
+            child: Icon(icon, color: Colors.black54),
+          ),
+          Text(label),
+        ],
+      ),
     );
   }
 }
