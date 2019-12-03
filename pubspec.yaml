@@ -42,7 +42,10 @@ flutter:
         - asset: fonts/ABeeZee-Regular.ttf
         - asset: fonts/ABeeZee-Italic.ttf
           style: italic
-
+  assets:
+    - assets/facebook.png
+    - assets/twitter.png
+    - assets/instagram.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
